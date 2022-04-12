@@ -51,22 +51,27 @@ class MarkovMachine {
    *  until it hits a null choice. */
 
   getText() {
-    // TODO: implement this!
     // - start at the first word in the input text
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
 
-    let text = "";
+    //initialize text with first word
+    let text = `${this.words[0]} `;
 
-    for (let word in this.chains) {
-      let randomNum = Math.floor(Math.random() * this.chains[word].length);
-      console.log("randomNum", randomNum);
-      let randomWord = this.chains[word][randomNum];
-      console.log("randomWord", randomWord);
+    let randomNum = Math.floor(Math.random() * this.chains[this.words[0]].length);
+    let nextWord = this.chains[this.words[0]][randomNum];
 
-      text += `${word} ${randomWord} `;
+    while (nextWord !== null){
+      text += `${nextWord} `;
+      randomNum = Math.floor(Math.random() * this.chains[nextWord].length);
+      nextWord = this.chains[nextWord][randomNum];
     }
 
-    return text;
+    return text.trim();
   }
 }
+
+
+module.exports = {
+  MarkovMachine,
+};
