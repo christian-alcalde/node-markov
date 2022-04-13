@@ -28,23 +28,18 @@ class MarkovMachine {
     let chainsObj = {};
 
     for (let i = 0; i < this.words.length; i++) {
-      if (this.words[i + 1] !== undefined) {
-        // if not undefined
-        if (chainsObj[this.words[i]]) {
-          chainsObj[this.words[i]].push(this.words[i + 1]);
-        } else {
-          chainsObj[this.words[i]] = [this.words[i + 1]];
-        }
+      let currWord = this.words[i]
+      let nextWord = (this.words[i+1] || null);
+
+      if (chainsObj[currWord]) {
+        chainsObj[currWord].push(nextWord);
       } else {
-        if (chainsObj[this.words[i]]) {
-          chainsObj[this.words[i]].push(null);
-        } else {
-          chainsObj[this.words[i]] = [null];
-        }
+        chainsObj[currWord] = [nextWord];
       }
     }
 
     return chainsObj;
+
   }
 
   /** Return random text from chains, starting at the first word and continuing
@@ -55,19 +50,17 @@ class MarkovMachine {
     // - find a random word from the following-words of that
     // - repeat until reaching the terminal null
 
-    //initialize text with first word
-    let text = `${this.words[0]} `;
+    let array = [];
+    let currWord = this.words[0];
 
-    let randomNum = Math.floor(Math.random() * this.chains[this.words[0]].length);
-    let nextWord = this.chains[this.words[0]][randomNum];
-
-    while (nextWord !== null){
-      text += `${nextWord} `;
-      randomNum = Math.floor(Math.random() * this.chains[nextWord].length);
-      nextWord = this.chains[nextWord][randomNum];
+    while (currWord !== null) {
+      array.push(currWord);
+      let randomIdx = Math.floor(Math.random() * this.chains[currWord].length);
+      currWord = this.chains[currWord][randomIdx];
     }
 
-    return text.trim();
+    return array.join(" ");
+
   }
 }
 
@@ -75,3 +68,4 @@ class MarkovMachine {
 module.exports = {
   MarkovMachine,
 };
+

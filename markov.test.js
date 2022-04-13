@@ -1,6 +1,6 @@
 "use strict";
 
-const { MarkovMachine } = require("./markov");
+const { MarkovMachine }  = require("./markov");
 
 describe("getChains functions", function () {
 
@@ -53,4 +53,5 @@ describe("getText functions", function () {
 
     expect(text).toEqual(expectedText);
   });
+
 });
